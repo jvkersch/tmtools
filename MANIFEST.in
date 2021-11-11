@@ -1,0 +1,6 @@
+include LICENSE.txt
+include MANIFEST.in
+include README.md
+
+recursive-include src *.h *.cpp
+recursive-include tmtools/data *.*
