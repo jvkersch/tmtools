@@ -1,0 +1,29 @@
+name: Tests
+
+on:
+  pull_request
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [3.6, 3.7, 3.8, 3.9]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: update base dependencies
+      run: python -m pip install --upgrade pip setuptools wheel
+    - name: install package
+      run: python -m pip install . -v
+    - name: create test directory
+      run: mkdir testdir
+    - name: run tests
+      working-directory: testdir
+      run: python -m unittest discover -v tmtools
