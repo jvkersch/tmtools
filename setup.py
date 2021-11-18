@@ -32,7 +32,7 @@ setup(
         "Topic :: Scientific/Engineering",
     ],
     license="GPLv3",
-    platforms=["Linux", "Mac OS-X", "Unix"],
+    platforms=["Linux", "Mac OS-X", "Unix", "Windows"],
     ext_modules=ext_modules,
     packages=find_packages(),
     package_data={
