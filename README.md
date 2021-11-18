@@ -16,6 +16,8 @@ From the console, simply run
 The package supports Python 3.6 and up. You will need a fairly recent version
 of pip, as well as a C++ compiler that supports C++ 14.
 
+This package supports Linux, macOS, and Windows.
+
 Usage
 -----
 

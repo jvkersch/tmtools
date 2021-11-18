@@ -7,7 +7,7 @@ from pybind11.setup_helpers import Pybind11Extension
 ext_modules = [
     Pybind11Extension(
         "tmtools._bindings",
-        sorted(glob.glob("src/*.cpp")) + ["src/extern/TMalign.cpp"],
+        sorted(glob.glob("src/*.cpp")) + ["src/extern/TMalign-modified.cpp"],
         cxx_std=14,
     ),
 ]
@@ -32,7 +32,7 @@ setup(
         "Topic :: Scientific/Engineering",
     ],
     license="GPLv3",
-    platforms=["Linux", "Mac OS-X", "Unix"],
+    platforms=["Linux", "Mac OS-X", "Unix", "Windows"],
     ext_modules=ext_modules,
     packages=find_packages(),
     package_data={

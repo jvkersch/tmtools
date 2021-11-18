@@ -69,7 +69,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#ifndef __APPLE__
 #include <malloc.h>
+#endif // __APPLE__
 #include <sstream>
 #include <iostream>
 #include <iomanip>
@@ -1715,7 +1717,7 @@ void parameter_set4scale(const int len, const double d_s, double &Lnorm,
 
 //     1, collect those residues with dis<d;
 //     2, calculate TMscore
-int score_fun8( double **xa, double **ya, int n_ali, double d, int i_ali[],
+int score_fun8( double **xa, double **ya, int n_ali, double d, vector<int>& i_ali,
     double *score1, int score_sum_method, const double Lnorm, 
     const double score_d8, const double d0)
 {
@@ -1759,7 +1761,7 @@ int score_fun8( double **xa, double **ya, int n_ali, double d, int i_ali[],
 }
 
 int score_fun8_standard(double **xa, double **ya, int n_ali, double d,
-    int i_ali[], double *score1, int score_sum_method,
+    vector<int>& i_ali, double *score1, int score_sum_method,
     double score_d8, double d0)
 {
     double score_sum = 0, di;
@@ -1811,16 +1813,17 @@ double TMscore8_search(double **r1, double **r2, double **xtm, double **ytm,
     int i, m;
     double score_max, score, rmsd;    
     const int kmax=Lali;    
-    int k_ali[kmax], ka, k;
+    int ka, k;
     double t[3];
     double u[3][3];
     double d;
     
+    vector<int> k_ali(kmax);
 
     //iterative parameters
     int n_it=20;            //maximum number of iterations
     int n_init_max=6; //maximum number of different fragment length 
-    int L_ini[n_init_max];  //fragment lengths, Lali, Lali/2, Lali/4 ... 4   
+    vector<int> L_ini(n_init_max);  //fragment lengths, Lali, Lali/2, Lali/4 ... 4   
     int L_ini_min=4;
     if(Lali<L_ini_min) L_ini_min=Lali;   
 
@@ -1843,10 +1846,12 @@ double TMscore8_search(double **r1, double **r2, double **xtm, double **ytm,
     
     score_max=-1;
     //find the maximum score starting from local structures superposition
-    int i_ali[kmax], n_cut;
+    int n_cut;
     int L_frag; //fragment length
     int iL_max; //maximum starting postion for the fragment
     
+    vector<int> i_ali(kmax);
+
     for(i_init=0; i_init<n_init; i_init++)
     {
         L_frag=L_ini[i_init];
@@ -1966,15 +1971,17 @@ double TMscore8_search_standard( double **r1, double **r2,
     int i, m;
     double score_max, score, rmsd;
     const int kmax = Lali;
-    int k_ali[kmax], ka, k;
+    int ka, k;
     double t[3];
     double u[3][3];
     double d;
 
+    vector<int> k_ali(kmax);
+
     //iterative parameters
     int n_it = 20;            //maximum number of iterations
     int n_init_max = 6; //maximum number of different fragment length 
-    int L_ini[n_init_max];  //fragment lengths, Lali, Lali/2, Lali/4 ... 4   
+    vector<int> L_ini(n_init_max);  //fragment lengths, Lali, Lali/2, Lali/4 ... 4   
     int L_ini_min = 4;
     if (Lali<L_ini_min) L_ini_min = Lali;
 
@@ -1997,9 +2004,11 @@ double TMscore8_search_standard( double **r1, double **r2,
 
     score_max = -1;
     //find the maximum score starting from local structures superposition
-    int i_ali[kmax], n_cut;
+    int n_cut;
     int L_frag; //fragment length
     int iL_max; //maximum starting postion for the fragment
+
+    vector<int> i_ali(kmax);
 
     for (i_init = 0; i_init<n_init; i_init++)
     {
@@ -2228,11 +2237,11 @@ double get_score_fast( double **r1, double **r2, double **xtm, double **ytm,
     //evaluate score   
     double di;
     const int len=k;
-    double dis[len];    
     double d00=d0_search;
     double d002=d00*d00;
     double d02=d0*d0;
-    
+    vector<double> dis(len);
+
     int n_ali=k;
     double xrot[3];
     tmscore=0;
@@ -4682,6 +4691,8 @@ int CPalign_main(double **xa, double **ya,
     return cp_point;
 }
 
+#if 0
+
 int main(int argc, char *argv[])
 {
     if (argc < 2) print_help();
@@ -5137,3 +5148,5 @@ int main(int argc, char *argv[])
     printf("Total CPU time is %5.2f seconds\n", diff);
     return 0;
 }
+
+#endif
