@@ -25,8 +25,8 @@ struct TM_result {
     auto r_t = t.mutable_unchecked<1>();
     auto r_u = u.mutable_unchecked<2>();
 
-    for (ssize_t i = 0; i < 3; i++) {
-      for (ssize_t j = 0; j < 3; j++) {
+    for (size_t i = 0; i < 3; i++) {
+      for (size_t j = 0; j < 3; j++) {
         r_u(i, j) = u_[i][j];
       }
       r_t[i] = t_[i];
@@ -34,8 +34,8 @@ struct TM_result {
   }
 };
 
-static void _check_shape(const c_array &data, std::string name, ssize_t which,
-                         ssize_t expected) {
+static void _check_shape(const c_array &data, std::string name, size_t which,
+                         size_t expected) {
   if (data.shape(which) != expected) {
     std::stringstream s;
     s << "Incorrect shape " << which << " for array '" << name << "' "
@@ -50,7 +50,7 @@ static std::vector<double *> _to_raw(const c_array &arr) {
 
   std::vector<double *> data(arr.shape(0));
 
-  for (ssize_t i = 0; i < arr.shape(0); i++) {
+  for (size_t i = 0; i < arr.shape(0); i++) {
     data[i] = ptr;
     ptr += arr.shape(1);
   }
