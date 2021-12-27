@@ -12,19 +12,26 @@ ext_modules = [
     ),
 ]
 
+
+def _read_long_description():
+    with open("README.md", encoding="utf-8") as fp:
+        return fp.readlines()
+
+
 setup(
     name="tmtools",
     version="0.0.1",
     author="Joris Vankerschaver",
     author_email="joris.vankerschaver@gmail.com",
     url="https://github.com/jvkersch/tmtools",
-    description="Python bindings around the TM-align code",
+    long_description=_read_long_description(),
+    long_description_content_type='text/markdown',
+    description="Python bindings around the TM-align code for structural alignment of proteins",  # noqa
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",

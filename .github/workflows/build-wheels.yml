@@ -21,6 +21,7 @@ jobs:
       run: python -m cibuildwheel --output-dir wheelhouse
       env:
         CIBW_BUILD_VERBOSITY: 1
+        CIBW_ARCHS_MACOS: "x86_64 arm64"
         CIBW_SKIP: "cp310-macosx_* pp3*"
     - uses: actions/upload-artifact@v2
       with:
