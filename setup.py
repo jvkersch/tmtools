@@ -15,12 +15,12 @@ ext_modules = [
 
 def _read_long_description():
     with open("README.md", encoding="utf-8") as fp:
-        return fp.readlines()
+        return fp.read()
 
 
 setup(
     name="tmtools",
-    version="0.0.1",
+    version="0.0.2",
     author="Joris Vankerschaver",
     author_email="joris.vankerschaver@gmail.com",
     url="https://github.com/jvkersch/tmtools",
