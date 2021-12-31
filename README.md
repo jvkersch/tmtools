@@ -8,15 +8,20 @@ al](https://zhanggroup.org/TM-align/) for protein structure comparison.
 Installation
 ------------
 
-From the console, simply run
+You can install the released version of the package directly from PyPI by
+running
 ```console
-    pip install git+https://github.com/jvkersch/tmtools.git#egg=tmtools
+    pip install tmtools
 ```
+Pre-built wheels are available for Linux, macOS, and Windows, for Python 3.6
+and up.
 
-The package supports Python 3.6 and up. You will need a fairly recent version
-of pip, as well as a C++ compiler that supports C++ 14.
-
-This package supports Linux, macOS, and Windows.
+To build the package from scratch, e.g. because you want to contribute to it,
+clone this repository, and then from the root of the repository, run
+```
+    pip install -e . -v
+```
+This requires a C++ compiler to be installed with support for C++ 14.
 
 Usage
 -----
