@@ -18,7 +18,7 @@ and up.
 
 To build the package from scratch, e.g. because you want to contribute to it,
 clone this repository, and then from the root of the repository, run
-```
+```console
     pip install -e . -v
 ```
 This requires a C++ compiler to be installed with support for C++ 14.
