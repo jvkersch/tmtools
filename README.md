@@ -61,7 +61,11 @@ array([[ 0.40393231,  0.04161396, -0.91384187],
 ```
 
 If you already have some PDB files, you can use the functions from `tmalign.io`
-to retrieve the coordinate and sequence data:
+to retrieve the coordinate and sequence data. These functions rely on
+`BioPython`, which is not installed by default to keep dependencies
+lightweight. To use them, you have to install `BioPython` first (`pip install
+biopython`). Then run:
+
 ```python
 >>> from tmtools.io import get_structure, get_residue_data
 >>> from tmtools.testing import get_pdb_path
@@ -75,8 +79,6 @@ to retrieve the coordinate and sequence data:
 >>> coords.shape
 (147, 3)
 ```
-
-These functions are light-weight wrappers around BioPython.
 
 Credits
 -------
