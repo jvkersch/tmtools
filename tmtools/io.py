@@ -4,7 +4,7 @@ import os
 import warnings
 
 from Bio.PDB.PDBParser import PDBParser
-from Bio.PDB.Polypeptide import three_to_one
+from Bio.PDB.Polypeptide import protein_letters_3to1
 
 import numpy as np
 
@@ -34,6 +34,6 @@ def get_residue_data(chain):
     for residue in chain.get_residues():
         if "CA" in residue.child_dict:
             coords.append(residue.child_dict["CA"].coord)
-            seq.append(three_to_one(residue.resname))
+            seq.append(protein_letters_3to1[residue.resname])
 
     return np.vstack(coords), "".join(seq)
