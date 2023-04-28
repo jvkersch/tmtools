@@ -20,7 +20,7 @@ def _read_long_description():
 
 setup(
     name="tmtools",
-    version="0.0.2",
+    version="0.0.3-rc2",
     author="Joris Vankerschaver",
     author_email="joris.vankerschaver@gmail.com",
     url="https://github.com/jvkersch/tmtools",
