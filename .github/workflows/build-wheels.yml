@@ -35,7 +35,13 @@ jobs:
       name: pypi
       url: https://pypi.org/p/tmtools 
     steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifact
+          path: wheelhouse/
       - uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
           user: __token__
-          password: ${{ secrets.pypi_password }}
+          password: ${{ secrets.PYPI_PASSWORD }}
+          repository_url: https://test.pypi.org/legacy/
+          packages_dir: wheelhouse/
