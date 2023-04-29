@@ -10,7 +10,7 @@ jobs:
   buildwheels:
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ['3.8']
 
     runs-on: ${{ matrix.os }}
@@ -26,7 +26,6 @@ jobs:
         CIBW_BUILD_VERBOSITY: 1
         CIBW_ARCHS_MACOS: "x86_64 arm64"
         CIBW_SKIP: "pp3*"
-        CIBW_BUILD: "cp37-manylinux_x86_64"
     - uses: actions/upload-artifact@v2
       with:
         path: ./wheelhouse/*.whl
