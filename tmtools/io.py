@@ -4,7 +4,11 @@ import os
 import warnings
 
 from Bio.PDB.PDBParser import PDBParser
-from Bio.PDB.Polypeptide import protein_letters_3to1
+try:
+    from Bio.PDB.Polypeptide import protein_letters_3to1
+except ImportError:
+    # pre 1.80
+    from Bio.PDB import protein_letters_3to1
 
 import numpy as np
 
