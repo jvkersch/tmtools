@@ -1,4 +1,4 @@
-name: Make sdist
+name: Upload PyPI
 
 on:
   workflow_call:
