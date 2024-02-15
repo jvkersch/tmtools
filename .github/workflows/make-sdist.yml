@@ -1,0 +1,15 @@
+name: Make sdist
+
+on:
+  workflow_call:
+
+jobs:
+  make_sdist:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: build sdist
+      run: pipx run build --sdist
+    - uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.tar.gz
