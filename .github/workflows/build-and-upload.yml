@@ -1,0 +1,16 @@
+name: Build and upload wheels
+
+on:
+  workflow_dispatch:
+  release:
+    types:
+      - published
+
+jobs:
+  buildwheels:
+    uses: ./.github/workflows/build-wheels.yml
+  make-sdist:
+    uses: ./.github/workflows/make-sdist.yml
+  upload-pypi:
+    uses: ./.github/workflows/upload-pypi.yml
+    secrets: inherit
