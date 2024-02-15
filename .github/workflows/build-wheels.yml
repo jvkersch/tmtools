@@ -2,7 +2,8 @@ name: Build wheels
 
 on:
   workflow_call:
-  
+  workflow_dispatch:
+
 jobs:
   buildwheels:
     strategy:
