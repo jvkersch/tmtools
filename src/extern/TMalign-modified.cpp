@@ -245,8 +245,7 @@ void print_help(bool h_opt=false)
 
 void PrintErrorAndQuit(const string sErrorString)
 {
-    cout << sErrorString << endl;
-    exit(1);
+    throw std::runtime_error(sErrorString);
 }
 
 template <typename T> inline T getmin(const T &a, const T &b)
