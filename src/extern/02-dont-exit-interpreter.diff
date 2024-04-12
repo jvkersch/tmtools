@@ -1,0 +1,14 @@
+diff --git a/src/extern/TMalign-modified.cpp b/src/extern/TMalign-modified.cpp
+index 8af1b1c..b76e936 100644
+--- a/src/extern/TMalign-modified.cpp
++++ b/src/extern/TMalign-modified.cpp
+@@ -245,8 +245,7 @@ void print_help(bool h_opt=false)
+ 
+ void PrintErrorAndQuit(const string sErrorString)
+ {
+-    cout << sErrorString << endl;
+-    exit(1);
++    throw std::runtime_error(sErrorString);
+ }
+ 
+ template <typename T> inline T getmin(const T &a, const T &b)
