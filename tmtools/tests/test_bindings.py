@@ -53,3 +53,19 @@ class TestBindings(unittest.TestCase):
         nptest.assert_array_almost_equal(res.u, u_expected)
         self.assertAlmostEqual(res.tm_norm_chain1, tm_norm1, places=4)
         self.assertAlmostEqual(res.tm_norm_chain2, tm_norm2, places=4)
+
+    def test_call_error(self):
+        # Given
+        coords1 = np.array([[0, 0, 0],
+                            [1, 1, 1],
+                            [2, 2, 2],
+                            [3, 3, 3]])
+        coords2 = np.array(
+            [[0, 0, 0],
+             [1, 1, 1]])
+        seq1 = "AAAA"
+        seq2 = "CC"
+
+        # When/then
+        with self.assertRaises(RuntimeError):
+            tm_align(coords1, coords2, seq1, seq2)
