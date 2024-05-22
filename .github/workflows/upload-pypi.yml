@@ -5,7 +5,6 @@ on:
 
 jobs:
   upload_pypi:
-    needs: [buildwheels, make_sdist]
     runs-on: ubuntu-latest
     environment:
       name: pypi

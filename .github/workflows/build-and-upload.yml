@@ -9,8 +9,9 @@ on:
 jobs:
   buildwheels:
     uses: ./.github/workflows/build-wheels.yml
-  make-sdist:
+  make_sdist:
     uses: ./.github/workflows/make-sdist.yml
   upload-pypi:
     uses: ./.github/workflows/upload-pypi.yml
     secrets: inherit
+    needs: [buildwheels, make_sdist]
