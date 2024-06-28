@@ -1,9 +1,10 @@
-""" Simple tools to read chain data from PDB files.
-"""
+"""Simple tools to read chain data from PDB files."""
+
 import os
 import warnings
 
 from Bio.PDB.PDBParser import PDBParser
+
 try:
     from Bio.PDB.Polypeptide import protein_letters_3to1
 except ImportError:
@@ -27,17 +28,53 @@ def get_structure(fname):
     return structure
 
 
-def get_residue_data(chain):
-    """Extract residue coordinates and sequence from PDB chain.
+def get_residue_data(chain, ignore_hetero=True):
+    """
+    Extract residue coordinates and sequence from a PDB chain.
 
-    Uses the coordinates of the Cα atom as the center of the residue.
+    This function extracts the coordinates of the Cα atoms and the amino acid sequence
+    from a given protein chain. It uses the coordinates of the Cα atom as the center
+    of each residue.
 
+    Parameters
+    ----------
+    chain : Bio.PDB.Chain.Chain
+        Protein chain object from which to extract data.
+    ignore_hetero : bool, optional
+        Whether to ignore heteroatoms from the chain. Default is True.
+
+    Returns
+    -------
+    coords : numpy.ndarray
+        Array of shape (n, 3) containing the Cα atom coordinates for each residue,
+        where n is the number of residues.
+    seq : str
+        String representing the amino acid sequence of the chain.
+
+    Notes
+    -----
+    This function assumes that the `protein_letters_3to1` dictionary is available
+    for converting 3-letter amino acid codes to 1-letter codes.
+
+    The function skips residues that do not have a Cα atom.
+
+    Examples
+    --------
+    >>> from Bio.PDB import PDBParser
+    >>> structure = PDBParser().get_structure('1a1q', '1a1q.pdb')
+    >>> chain = structure[0]['A']
+    >>> coords, seq = get_residue_data(chain)
+    >>> print(coords.shape)
+    (141, 3)
+    >>> print(len(seq))
+    141
     """
     coords = []
     seq = []
     for residue in chain.get_residues():
-        if "CA" in residue.child_dict:
-            coords.append(residue.child_dict["CA"].coord)
-            seq.append(protein_letters_3to1[residue.resname])
+        if residue.id[0] == " " and ignore_hetero:
+            if "CA" in residue.child_dict:
+                coords.append(residue.child_dict["CA"].coord)
+                seq.append(protein_letters_3to1[residue.resname])
 
     return np.vstack(coords), "".join(seq)
