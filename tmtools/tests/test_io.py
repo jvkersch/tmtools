@@ -3,19 +3,23 @@ import unittest
 import numpy.testing as nptest
 
 from ..io import get_residue_data, get_structure
-from ..testing import get_pdb_path
+from ..testing import get_pdb_path, get_mmcif_path
 
 
 class TestIO(unittest.TestCase):
     def test_get_structure(self):
-        # Given
+        # Test valid PDB file loading
         pdb = get_pdb_path("2gtl")
+        pdb_structure = get_structure(pdb)
+        self.assertEqual(pdb_structure.id, "2gtl")
 
-        # When
-        structure = get_structure(pdb)
+        # Test valid MMCIF file loading
+        mmcif = get_mmcif_path("2gtl")
+        mmcif_structure = get_structure(mmcif, format="mmcif")
+        self.assertEqual(mmcif_structure.id, "2gtl")
 
-        # Then
-        self.assertEqual(structure.id, "2gtl")
+        # Test if PDB and MMCIF structures are equal
+        self.assertEqual(pdb_structure, mmcif_structure)
 
     def test_get_residue_coordinates(self):
         # Given
