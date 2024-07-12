@@ -8,17 +8,20 @@ from ..testing import get_pdb_path, get_mmcif_path
 
 class TestIO(unittest.TestCase):
     def test_get_structure(self):
-        # Test valid PDB file loading
-        pdb = get_pdb_path("2gtl")
-        pdb_structure = get_structure(pdb)
+        # Given - an example structure
+        protein_id = "2gtl"
+
+        # When - load the example PDB file
+        pdb_path = get_pdb_path(protein_id)
+        pdb_structure = get_structure(pdb_path)
         self.assertEqual(pdb_structure.id, "2gtl")
 
-        # Test valid MMCIF file loading
-        mmcif = get_mmcif_path("2gtl")
-        mmcif_structure = get_structure(mmcif, format="mmcif")
+        # When - load the example MMCIF file
+        mmcif_path = get_mmcif_path(protein_id)
+        mmcif_structure = get_structure(mmcif_path)
         self.assertEqual(mmcif_structure.id, "2gtl")
 
-        # Test if PDB and MMCIF structures are equal
+        # Then - both files contain the same structure
         self.assertEqual(pdb_structure, mmcif_structure)
 
     def test_get_residue_coordinates(self):
