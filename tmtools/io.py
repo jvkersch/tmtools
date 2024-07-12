@@ -22,19 +22,19 @@ def get_structure(fname, format="pdb"):
     Parameters
     ----------
     fname : str
-       Path to the structure file.
+        Path to the structure file.
     format : {'pdb', 'mmcif'}, optional
-       Format of the structure file. Default is 'pdb'.
+        Format of the structure file. Default is 'pdb'.
 
     Returns
     -------
     Bio.PDB.Structure.Structure
-       Parsed structure object.
+        Parsed structure object.
 
     Raises
     ------
     ValueError
-       If an invalid format is provided.
+        If an invalid format is provided.
 
     Notes
     -----
