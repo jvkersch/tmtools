@@ -18,10 +18,11 @@ struct TM_result {
   c_array u; // optimal rotation
 
   double TM1, TM2; // normalized TM scores
+  double RMSD; // RMSD
 
-  TM_result(const double t_[3], const double u_[3][3], double TM1_, double TM2_)
+  TM_result(const double t_[3], const double u_[3][3], double TM1_, double TM2_, double RMSD_)
       : t(std::vector<ptrdiff_t>{3}), u(std::vector<ptrdiff_t>{3, 3}),
-        TM1(TM1_), TM2(TM2_) {
+        TM1(TM1_), TM2(TM2_), RMSD(RMSD_) {
     auto r_t = t.mutable_unchecked<1>();
     auto r_u = u.mutable_unchecked<2>();
 
@@ -70,14 +71,14 @@ static TM_result tm_align(c_array x, c_array y, std::string seqx,
   auto raw_y = _to_raw(y);
 
   // output parameters
-  double TM1, TM2;
+  double TM1, TM2, RMSD;
   double t[3];
   double u[3][3];
 
   _tmalign_wrapper(raw_x.data(), raw_y.data(), seqx.c_str(), seqy.c_str(),
-                   seqx.size(), seqy.size(), t, u, TM1, TM2);
+                   seqx.size(), seqy.size(), t, u, TM1, TM2, RMSD);
 
-  return TM_result(t, u, TM1, TM2);
+  return TM_result(t, u, TM1, TM2, RMSD);
 }
 
 const char* tm_align_docstring =
@@ -117,5 +118,7 @@ PYBIND11_MODULE(_bindings, m) {
       .def_readonly("tm_norm_chain2", &TM_result::TM1,
                     "TM-score normalized by the length of protein 2")
       .def_readonly("tm_norm_chain1", &TM_result::TM2,
-                    "TM-score normalized by the length of protein 1");
+                    "TM-score normalized by the length of protein 1")
+      .def_readonly("rmsd", &TM_result::RMSD,
+                    "RMSD of aligned proteins");
 }
