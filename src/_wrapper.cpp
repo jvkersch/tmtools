@@ -6,7 +6,7 @@
 
 void _tmalign_wrapper(double **xa, double **ya, const char *seqx,
                       const char *seqy, const int xlen, const int ylen,
-                      double t0[3], double u0[3][3], double &TM1, double &TM2)
+                      double t0[3], double u0[3][3], double &TM1, double &TM2, double &rmsd_ali)
 
 {
   // user alignment
@@ -38,7 +38,7 @@ void _tmalign_wrapper(double **xa, double **ya, const char *seqx,
   double rmsd0 = 0.0;
   int L_ali; // Aligned length in standard_TMscore
   double Liden = 0;
-  double TM_ali, rmsd_ali; // TMscore and rmsd in standard_TMscore
+  double TM_ali; // TMscore and rmsd in standard_TMscore
   int n_ali = 0;
   int n_ali8 = 0;
 
