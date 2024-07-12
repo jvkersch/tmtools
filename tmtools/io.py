@@ -48,7 +48,7 @@ def get_structure(fname, format="pdb"):
     """
     # Check if format provided is valid
     if format not in ["pdb", "mmcif"]:
-        raise ValueError("Invalid structure format")
+        raise ValueError(f"Invalid structure format: {format!r}")
 
     # Select parser based on format
     if format == "pdb":
