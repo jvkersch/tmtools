@@ -18,7 +18,7 @@ class TestIO(unittest.TestCase):
 
         # When - load the example MMCIF file
         mmcif_path = get_mmcif_path(protein_id)
-        mmcif_structure = get_structure(mmcif_path)
+        mmcif_structure = get_structure(mmcif_path, format="mmcif")
         self.assertEqual(mmcif_structure.id, "2gtl")
 
         # Then - both files contain the same structure
