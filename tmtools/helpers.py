@@ -1,8 +1,48 @@
+"""Helper tools to work with TM-Align."""
+
 from Bio.PDB.Structure import Structure
 import numpy as np
 
 
 def apply_tmalign_transformation(original_structure, tmalign_result):
+    """
+    Transform structure based on TM-Align result.
+
+    This function creates a copy of the input structure and applies the rotation
+    matrix and translation vector from a TM-align result to all atoms in the copied
+    structure.
+
+    Parameters
+    ----------
+    original_structure : Bio.PDB.Structure.Structure
+        The original structure to transform.
+    tmalign_result : object
+        An object containing the TM-align transformation data, with attributes:
+        - u : array_like
+            3x3 rotation matrix.
+        - t : array_like
+            Translation vector with 3 elements.
+
+    Returns
+    -------
+    Bio.PDB.Structure.Structure
+        A new structure object with the TM-align transformation applied. The ID of
+        this structure is the original ID with "_tmalign" appended.
+
+    Raises
+    ------
+    AssertionError
+        If the input structure is not a Bio.PDB.Structure.Structure object,
+        if the tmalign_result doesn't have 'u' and 't' attributes,
+        if the rotation matrix is not 3x3, or
+        if the translation vector doesn't have 3 elements.
+
+    Notes
+    -----
+    The function creates a deep copy of the input structure, modifies the ID,
+    and then applies the TM-align transformation to all atom coordinates in the copy.
+    The original structure remains unchanged.
+    """
     # Check if inputs are correct
     assert isinstance(
         original_structure, Structure
