@@ -80,6 +80,21 @@ biopython`). Then run:
 (147, 3)
 ```
 
+Running the tests
+-----------------
+
+The test suite uses the standard Python
+[unittest](https://docs.python.org/3/library/unittest.html) framework. To run
+the test suite, run the following command (from the root of the repository,
+with the development environment activated):
+```console
+    python -m unittest discover -v .
+```
+
+When adding to the test suite, please adhere to the
+[given/when/then](https://martinfowler.com/bliki/GivenWhenThen.html)
+pattern. You can refer to the existing tests for an example.
+
 Credits
 -------
 
