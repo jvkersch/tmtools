@@ -38,7 +38,7 @@ void _tmalign_wrapper(double **xa, double **ya, const char *seqx,
   double rmsd0 = 0.0;
   int L_ali; // Aligned length in standard_TMscore
   double Liden = 0;
-  double TM_ali; // TMscore and rmsd in standard_TMscore
+  double TM_ali; // TMscore in standard_TMscore
   int n_ali = 0;
   int n_ali8 = 0;
 
