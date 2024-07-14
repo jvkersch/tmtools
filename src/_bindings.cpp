@@ -18,10 +18,12 @@ struct TM_result {
   c_array u; // optimal rotation
 
   double TM1, TM2; // normalized TM scores
+  std::string seqM, seqxA, seqyA; // Sequence alignment
 
-  TM_result(const double t_[3], const double u_[3][3], double TM1_, double TM2_)
+  TM_result(const double t_[3], const double u_[3][3], double TM1_, double TM2_,
+        std::string seqM_, std::string seqxA_, std::string seqyA_)
       : t(std::vector<ptrdiff_t>{3}), u(std::vector<ptrdiff_t>{3, 3}),
-        TM1(TM1_), TM2(TM2_) {
+        TM1(TM1_), TM2(TM2_), seqM(seqM_), seqxA(seqxA_), seqyA(seqyA_) {
     auto r_t = t.mutable_unchecked<1>();
     auto r_u = u.mutable_unchecked<2>();
 
@@ -71,13 +73,14 @@ static TM_result tm_align(c_array x, c_array y, std::string seqx,
 
   // output parameters
   double TM1, TM2;
+  std::string seqM, seqxA, seqyA;
   double t[3];
   double u[3][3];
 
   _tmalign_wrapper(raw_x.data(), raw_y.data(), seqx.c_str(), seqy.c_str(),
-                   seqx.size(), seqy.size(), t, u, TM1, TM2);
+                   seqx.size(), seqy.size(), t, u, TM1, TM2, seqM, seqxA, seqyA);
 
-  return TM_result(t, u, TM1, TM2);
+  return TM_result(t, u, TM1, TM2, seqM, seqxA, seqyA);
 }
 
 const char* tm_align_docstring =
@@ -117,5 +120,11 @@ PYBIND11_MODULE(_bindings, m) {
       .def_readonly("tm_norm_chain2", &TM_result::TM1,
                     "TM-score normalized by the length of protein 2")
       .def_readonly("tm_norm_chain1", &TM_result::TM2,
-                    "TM-score normalized by the length of protein 1");
+                    "TM-score normalized by the length of protein 1")
+      .def_readonly("seqxA", &TM_result::seqxA,
+                    "Aligned aminoacid sequence for protein 1")
+      .def_readonly("seqyA", &TM_result::seqyA,
+                    "Aligned aminoacid sequence for protein 2")
+      .def_readonly("seqM", &TM_result::seqM,
+                    "Aligned aminoacid sequences classification");
 }
