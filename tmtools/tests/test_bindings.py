@@ -27,6 +27,28 @@ class TestBindings(unittest.TestCase):
         # Then
         nptest.assert_array_almost_equal(res.t, np.zeros(3))
         nptest.assert_array_almost_equal(res.u, np.eye(3))
+        self.assertEqual(res.seqxA, seq)
+        self.assertEqual(res.seqyA, seq)
+        self.assertEqual(res.seqM, ":" * len(seq))
+        self.assertEqual(res.seqxA, res.seqyA)
+
+    def test_call_segments(self):
+        # Given
+        coords, seq = _coords_from_pdb("2gtl")
+        coords1 = coords[0:40]
+        seq1 = seq[0:40]
+        coords2 = coords[10:50]
+        seq2 = seq[10:50]
+
+        # When
+        res = tm_align(coords1, coords2, seq1, seq2)
+
+        # Then
+        nptest.assert_array_almost_equal(res.t, np.zeros(3))
+        nptest.assert_array_almost_equal(res.u, np.eye(3))
+        self.assertEqual(res.seqxA, f"{seq1}----------")
+        self.assertEqual(res.seqyA, f"----------{seq2}")
+        self.assertEqual(res.seqM, " " * 10 + ":" * 30 + " " * 10)
 
     def test_call_different(self):
         # Given
