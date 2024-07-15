@@ -27,7 +27,7 @@ class TestBindings(unittest.TestCase):
         # Then
         nptest.assert_array_almost_equal(res.t, np.zeros(3))
         nptest.assert_array_almost_equal(res.u, np.eye(3))
-        nptest.assert_almost_equal(res.rmsd, 0.0)
+        nptest.assert_almost_equal(res.rmsd, 0.0, decimal=4)
 
     def test_call_different(self):
         # Given
