@@ -71,14 +71,14 @@ static TM_result tm_align(c_array x, c_array y, std::string seqx,
   auto raw_y = _to_raw(y);
 
   // output parameters
-  double TM1, TM2, rmsd_ali;
+  double TM1, TM2, rmsd0;
   double t[3];
   double u[3][3];
 
   _tmalign_wrapper(raw_x.data(), raw_y.data(), seqx.c_str(), seqy.c_str(),
-                   seqx.size(), seqy.size(), t, u, TM1, TM2, rmsd_ali);
+                   seqx.size(), seqy.size(), t, u, TM1, TM2, rmsd0);
 
-  return TM_result(t, u, TM1, TM2, rmsd_ali);
+  return TM_result(t, u, TM1, TM2, rmsd0);
 }
 
 const char* tm_align_docstring =
