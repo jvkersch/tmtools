@@ -18,11 +18,11 @@ struct TM_result {
   c_array u; // optimal rotation
 
   double TM1, TM2; // normalized TM scores
-  double rmsd_ali; // alignment RMSD
+  double rmsd0; // alignment RMSD
 
-  TM_result(const double t_[3], const double u_[3][3], double TM1_, double TM2_, double rmsd_ali_)
+  TM_result(const double t_[3], const double u_[3][3], double TM1_, double TM2_, double rmsd0_)
       : t(std::vector<ptrdiff_t>{3}), u(std::vector<ptrdiff_t>{3, 3}),
-        TM1(TM1_), TM2(TM2_), rmsd_ali(rmsd_ali_) {
+        TM1(TM1_), TM2(TM2_), rmsd0(rmsd0_) {
     auto r_t = t.mutable_unchecked<1>();
     auto r_u = u.mutable_unchecked<2>();
 
@@ -119,6 +119,6 @@ PYBIND11_MODULE(_bindings, m) {
                     "TM-score normalized by the length of protein 2")
       .def_readonly("tm_norm_chain1", &TM_result::TM2,
                     "TM-score normalized by the length of protein 1")
-      .def_readonly("rmsd", &TM_result::rmsd_ali,
+      .def_readonly("rmsd", &TM_result::rmsd0,
                     "RMSD of aligned proteins");
 }
