@@ -19,4 +19,4 @@ print(res.t)
 print(res.u)
 print(res.tm_norm_chain1)
 print(res.tm_norm_chain2)
-                   
+print(res.rmsd)
