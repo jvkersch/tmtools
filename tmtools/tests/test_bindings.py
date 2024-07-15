@@ -45,6 +45,7 @@ class TestBindings(unittest.TestCase):
         )
         tm_norm2 = 0.15158
         tm_norm1 = 0.38759
+        rmsd = 5.37
 
         # When
         res = tm_align(coords1, coords2, seq1, seq2)
@@ -54,6 +55,7 @@ class TestBindings(unittest.TestCase):
         nptest.assert_array_almost_equal(res.u, u_expected)
         self.assertAlmostEqual(res.tm_norm_chain1, tm_norm1, places=4)
         self.assertAlmostEqual(res.tm_norm_chain2, tm_norm2, places=4)
+        self.assertAlmostEqual(res.rmsd, rmsd, places=1)
 
     def test_call_error(self):
         # Given
