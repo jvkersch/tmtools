@@ -4,6 +4,7 @@ import os
 import warnings
 
 from Bio.PDB.PDBParser import PDBParser
+from Bio.PDB.MMCIFParser import MMCIFParser
 
 try:
     from Bio.PDB.Polypeptide import protein_letters_3to1
@@ -14,12 +15,51 @@ except ImportError:
 import numpy as np
 
 
-def get_structure(fname):
+def get_structure(fname, format="pdb"):
+    """
+    Load and parse a structure file.
+
+    Parameters
+    ----------
+    fname : str
+        Path to the structure file.
+    format : {'pdb', 'mmcif'}, optional
+        Format of the structure file. Default is 'pdb'.
+
+    Returns
+    -------
+    Bio.PDB.Structure.Structure
+        Parsed structure object.
+
+    Raises
+    ------
+    ValueError
+        If an invalid format is provided.
+
+    Notes
+    -----
+    This function uses Biopython's structure parsers to load the file.
+    Warnings are suppressed during parsing.
+
+    Examples
+    --------
+    >>> structure = get_structure('1abc.pdb')
+    >>> structure = get_structure('1xyz.cif', format='mmcif')
+    """
+    # Check if format provided is valid
+    if format not in ["pdb", "mmcif"]:
+        raise ValueError(f"Invalid structure format: {format!r}")
+
+    # Select parser based on format
+    if format == "pdb":
+        parser = PDBParser(PERMISSIVE=True)
+    elif format == "mmcif":
+        parser = MMCIFParser()
+
+    # Load structure
     fname = str(fname)
     b = os.path.basename(fname)
     sname, _ = os.path.splitext(b)
-
-    parser = PDBParser(PERMISSIVE=1)
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
