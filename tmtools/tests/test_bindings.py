@@ -27,6 +27,7 @@ class TestBindings(unittest.TestCase):
         # Then
         nptest.assert_array_almost_equal(res.t, np.zeros(3))
         nptest.assert_array_almost_equal(res.u, np.eye(3))
+        nptest.assert_almost_equal(res.rmsd, 0.0, decimal=4)
         self.assertEqual(res.seqxA, seq)
         self.assertEqual(res.seqyA, seq)
         self.assertEqual(res.seqM, ":" * len(seq))
@@ -46,9 +47,11 @@ class TestBindings(unittest.TestCase):
         # Then
         nptest.assert_array_almost_equal(res.t, np.zeros(3))
         nptest.assert_array_almost_equal(res.u, np.eye(3))
+        nptest.assert_almost_equal(res.rmsd, 0.0, decimal=4)
         self.assertEqual(res.seqxA, f"{seq1}----------")
         self.assertEqual(res.seqyA, f"----------{seq2}")
         self.assertEqual(res.seqM, " " * 10 + ":" * 30 + " " * 10)
+
 
     def test_call_different(self):
         # Given
@@ -66,6 +69,7 @@ class TestBindings(unittest.TestCase):
         )
         tm_norm2 = 0.15158
         tm_norm1 = 0.38759
+        rmsd = 5.37
 
         # When
         res = tm_align(coords1, coords2, seq1, seq2)
@@ -75,6 +79,7 @@ class TestBindings(unittest.TestCase):
         nptest.assert_array_almost_equal(res.u, u_expected)
         self.assertAlmostEqual(res.tm_norm_chain1, tm_norm1, places=4)
         self.assertAlmostEqual(res.tm_norm_chain2, tm_norm2, places=4)
+        self.assertAlmostEqual(res.rmsd, rmsd, places=1)
 
     def test_call_error(self):
         # Given

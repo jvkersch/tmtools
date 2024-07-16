@@ -58,6 +58,8 @@ array([[ 0.40393231,  0.04161396, -0.91384187],
 0.3105833326322145
 >>> res.tm_norm_chain2
 0.414111110176286
+>>> res.rmsd
+0.39002811082975875
 ```
 
 If you already have some PDB files, you can use the functions from `tmalign.io`
