@@ -3,7 +3,7 @@ import unittest
 import numpy.testing as nptest
 
 from ..io import get_residue_data, get_structure
-from ..helpers import transform_structure, transform_coordinates
+from ..helpers import transform_structure
 from ..testing import get_pdb_path
 
 from tmtools import tm_align
@@ -31,7 +31,7 @@ class TestHelpers(unittest.TestCase):
 
         # When
         res = tm_align(coords1, coords2, seq1, seq2)
-        aligned_coords2 = transform_coordinates(coords2, res)
+        aligned_coords2 = coords2 @ res.u.T + res.t
         aligned_struct2 = transform_structure(struct2, res)
 
         # Then

@@ -3,47 +3,6 @@
 import numpy as np
 
 
-def transform_coordinates(original_coords, tmalign_result):
-    """
-    Transform coordinates based on TM-Align result.
-
-    This function creates a copy of the input coordinates and applies the rotation
-    matrix and translation vector from a TM-align result to all atoms in the copied
-    structure.
-
-    Parameters
-    ----------
-    original_coords : array_like
-        The original coordinates to transform.
-    tmalign_result : TM_result
-        An object containing the TM-align transformation data, with attributes:
-        - u : array_like
-            3x3 rotation matrix.
-        - t : array_like
-            Translation vector with 3 elements.
-
-    Returns
-    -------
-    np.array
-        A new array object with the TM-align transformation applied.
-    """
-    # Create a copy of the structure to transform
-    aligned_coords = original_coords.copy()
-
-    # Create rotation matrix and translation vector as numpy arrays
-    rotation_matrix = np.array(tmalign_result.u, dtype=float)
-    translation_vector = np.array(tmalign_result.t, dtype=float)
-
-    # Iterate through all coordinates applying transformation
-    aligned_coords = np.apply_along_axis(
-        lambda xyz: np.dot(rotation_matrix, xyz) + translation_vector,
-        axis=1,
-        arr=aligned_coords,
-    )
-
-    return aligned_coords
-
-
 def transform_structure(original_structure, tmalign_result):
     """
     Transform structure based on TM-Align result.
