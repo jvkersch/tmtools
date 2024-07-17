@@ -27,6 +27,14 @@ def transform_structure(original_structure, tmalign_result):
     Bio.PDB.Structure.Structure
         A new structure object with the TM-align transformation applied. The ID of
         this structure is the original ID with "_tmalign" appended.
+
+    Note
+    ----
+    To align atomic coordinates based on the TM-Align result, one can use the following code:
+    ```python
+    >>> res = tm_align(coords1, coords2, seq1, seq2)
+    >>> aligned_coords1 = coords1 @ res.u.T + res.t
+    ```
     """
     # Create a copy of the structure to transform
     aligned_structure = original_structure.copy()
