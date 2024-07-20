@@ -16,12 +16,6 @@ running
 Pre-built wheels are available for Linux, macOS, and Windows, for Python 3.6
 and up.
 
-To build the package from scratch, e.g. because you want to contribute to it,
-clone this repository, and then from the root of the repository, run
-```console
-    pip install -e . -v
-```
-This requires a C++ compiler to be installed with support for C++ 14.
 
 Usage
 -----
@@ -81,6 +75,22 @@ biopython`). Then run:
 >>> coords.shape
 (147, 3)
 ```
+
+Development mode
+----------------
+
+To build the package from scratch, e.g. because you want to contribute to it,
+clone this repository, and then from the root of the repository, run
+```console
+    pip install -e . -v
+```
+This requires a C++ compiler to be installed with support for C++ 14.
+
+This project uses [ruff](https://docs.astral.sh/ruff/) as a code formatter and
+linter. Ruff is run automatically via GitHub actions on new commits, please
+consider running locally (preferably via a pre-commit hook) to notice and fix
+any errors early on.
+
 
 Running the tests
 -----------------
