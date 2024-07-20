@@ -30,7 +30,8 @@ def transform_structure(original_structure, tmalign_result):
 
     Note
     ----
-    To align atomic coordinates based on the TM-Align result, one can use the following code:
+    To align atomic coordinates based on the TM-Align result, one can use the
+    following code:
     ```python
     >>> res = tm_align(coords1, coords2, seq1, seq2)
     >>> aligned_coords1 = coords1 @ res.u.T + res.t
