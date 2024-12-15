@@ -1,3 +1,7 @@
+import contextlib
+import os
+import sys
+import threading
 import unittest
 
 import numpy.testing as nptest
@@ -6,7 +10,7 @@ import numpy as np
 from ..io import get_residue_data, get_structure
 from ..testing import get_pdb_path
 
-from tmtools import tm_align
+from tmtools import tm_align, print_version
 
 
 def _coords_from_pdb(sname):
@@ -14,6 +18,46 @@ def _coords_from_pdb(sname):
     s = get_structure(pdb)
     c = next(s.get_chains())
     return get_residue_data(c)
+
+
+@contextlib.contextmanager
+def _capture_stdout():
+    # Based on https://stackoverflow.com/a/24277852
+    stdout_fileno = sys.stdout.fileno()
+    stdout_save = os.dup(stdout_fileno)
+    stdout_pipe = os.pipe()
+    os.dup2(stdout_pipe[1], stdout_fileno)
+    os.close(stdout_pipe[1])
+
+    captured_stdout = ''
+    def drain_pipe():
+        nonlocal captured_stdout
+        while True:
+            data = os.read(stdout_pipe[0], 1024).decode()
+            if not data:
+                break
+            captured_stdout += data
+
+    t = threading.Thread(target=drain_pipe)
+    t.start()
+
+    result = _StdoutData()
+
+    try:
+        yield result
+    finally:
+        os.close(stdout_fileno)
+        t.join()
+
+        os.close(stdout_pipe[0])
+        os.dup2(stdout_save, stdout_fileno)
+        os.close(stdout_save)
+
+        result.stdout = captured_stdout
+
+
+class _StdoutData:
+    pass
 
 
 class TestBindings(unittest.TestCase):
@@ -96,3 +140,12 @@ class TestBindings(unittest.TestCase):
         # When/then
         with self.assertRaises(RuntimeError):
             tm_align(coords1, coords2, seq1, seq2)
+
+    def test_print_version(self):
+        # When
+        with _capture_stdout() as captured:
+            print_version()
+
+        # Then
+        self.assertIn("Version 20210224", captured.stdout)
+

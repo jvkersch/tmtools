@@ -18,4 +18,6 @@ int TMalign_main(double **xa, double **ya, const char *seqx, const char *seqy,
                  const bool fast_opt, const int mol_type,
                  const double TMcut = -1);
 
+void print_version();
+
 #endif // _TMALIGN_H_

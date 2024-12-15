@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "_wrapper.h"
+#include "_tmalign.h"
 
 namespace py = pybind11;
 
@@ -119,6 +120,9 @@ PYBIND11_MODULE(_bindings, m) {
         py::arg("y"),
         py::arg("seqx"),
         py::arg("seqy"));
+  m.def("print_version",
+        &print_version,
+        "Print tmtools version string to stdout");
 
   py::class_<TM_result>(m, "TMResult", "Results wrapper for the TM-align algorithm")
       .def_readonly("t", &TM_result::t, "Optimal translation from protein 1 to 2")
