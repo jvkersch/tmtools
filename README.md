@@ -76,6 +76,18 @@ biopython`). Then run:
 (147, 3)
 ```
 
+For debugging purposes, you can use the function `tmtools.print_version`, which prints the version of the underlying TM-align library directly to the standard output.
+```python
+>>> from tmtools import print_version
+>>> print_version()
+
+ *********************************************************************
+ * TM-align (Version 20210224): protein structure alignment          *
+ * References: Y Zhang, J Skolnick. Nucl Acids Res 33, 2302-9 (2005) *
+ * Please email comments and suggestions to yangzhanglab@umich.edu   *
+ *********************************************************************
+```
+
 Development mode
 ----------------
 
