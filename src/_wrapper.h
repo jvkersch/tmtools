@@ -4,6 +4,7 @@
 void _tmalign_wrapper(double **xa, double **ya, const char *seqx,
                       const char *seqy, const int xlen, const int ylen,
                       double t0[3], double u0[3][3], double &TM1, double &TM2, double &rmsd0,
-                      std::string &seqM, std::string &seqxA, std::string &seqyA);
+                      std::string &seqM, std::string &seqxA, std::string &seqyA,
+                      const std::vector<std::string> &user_alignment = std::vector<std::string>());
 
 #endif // _TMALIGN_WRAPPER_H_

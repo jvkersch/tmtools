@@ -7,11 +7,12 @@
 void _tmalign_wrapper(double **xa, double **ya, const char *seqx,
                       const char *seqy, const int xlen, const int ylen,
                       double t0[3], double u0[3][3], double &TM1, double &TM2, double &rmsd0,
-                      std::string &seqM, std::string &seqxA, std::string &seqyA)
+                      std::string &seqM, std::string &seqxA, std::string &seqyA,
+                      const std::vector<std::string> &user_alignment)
 
 {
-  // user alignment
-  std::vector<std::string> sequence; // get value from alignment file
+  // user alignment - use provided alignment or empty vector for automatic alignment
+  std::vector<std::string> sequence = user_alignment;
 
   // sequences and coordinates
   char *secx = new char[xlen + 1];
@@ -21,7 +22,7 @@ void _tmalign_wrapper(double **xa, double **ya, const char *seqx,
   make_sec(ya, ylen, secy);
 
   // parameters (currently hardcoded)
-  int i_opt = 0;         // 1 for -i, 3 for -I
+  int i_opt = (sequence.size() == 2) ? 3 : 0; // 3 for user alignment, 0 for automatic
   int a_opt = 0;         // flag for -a, do not normalized by average length
   bool u_opt = false;    // flag for -u, normalized by user specified length
   bool d_opt = false;    // flag for -d, user specified d0

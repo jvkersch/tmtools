@@ -65,7 +65,7 @@ static std::vector<double *> _to_raw(const c_array &arr) {
 }
 
 static TM_result tm_align(c_array x, c_array y, std::string seqx,
-                          std::string seqy) {
+                          std::string seqy, py::object alignment = py::none()) {
   // coordinates
   _check_shape(x, "x", 0, seqx.size());
   _check_shape(y, "y", 0, seqy.size());
@@ -76,15 +76,52 @@ static TM_result tm_align(c_array x, c_array y, std::string seqx,
   auto raw_y = _to_raw(y);
 
   // output parameters
-
   double TM1, TM2, rmsd0;
   std::string seqM, seqxA, seqyA;
 
   double t[3];
   double u[3][3];
 
+  // process alignment parameter
+  std::vector<std::string> user_alignment;
+  if (!alignment.is_none()) {
+    if (py::isinstance<py::list>(alignment) || py::isinstance<py::tuple>(alignment)) {
+      auto seq_list = py::cast<py::list>(alignment);
+      if (seq_list.size() != 2) {
+        throw std::runtime_error("Alignment must contain exactly 2 sequences");
+      }
+      for (size_t i = 0; i < 2; ++i) {
+        user_alignment.push_back(py::str(seq_list[i]));
+      }
+      
+      // validate alignment lengths are equal
+      if (user_alignment[0].size() != user_alignment[1].size()) {
+        throw std::runtime_error("Aligned sequences must have equal length");
+      }
+      
+      // validate that ungapped sequences match input sequences
+      std::string ungapped_x, ungapped_y;
+      for (char c : user_alignment[0]) {
+        if (c != '-') ungapped_x += c;
+      }
+      for (char c : user_alignment[1]) {
+        if (c != '-') ungapped_y += c;
+      }
+      
+      if (ungapped_x != seqx) {
+        throw std::runtime_error("First aligned sequence (without gaps) must match seqx");
+      }
+      if (ungapped_y != seqy) {
+        throw std::runtime_error("Second aligned sequence (without gaps) must match seqy");
+      }
+    } else {
+      throw std::runtime_error("Alignment must be a list or tuple of 2 strings");
+    }
+  }
+
   _tmalign_wrapper(raw_x.data(), raw_y.data(), seqx.c_str(), seqy.c_str(),
-                   seqx.size(), seqy.size(), t, u, TM1, TM2, rmsd0, seqM, seqxA, seqyA);
+                   seqx.size(), seqy.size(), t, u, TM1, TM2, rmsd0, seqM, seqxA, seqyA,
+                   user_alignment);
 
   return TM_result(t, u, TM1, TM2, rmsd0, seqM, seqxA, seqyA);
 
@@ -103,6 +140,11 @@ const char* tm_align_docstring =
     "    Protein sequence 1\n"
     "seqy : str\n"
     "    Protein sequence 2\n"
+    "alignment : list of str, optional\n"
+    "    Pre-defined alignment as a list/tuple of 2 aligned sequences.\n"
+    "    Each sequence should include gaps marked with '-'. If provided,\n"
+    "    TM-align will use this alignment instead of computing its own.\n"
+    "    The ungapped sequences must match seqx and seqy respectively.\n"
     "\n"
     "Returns\n"
     "-------\n"
@@ -119,7 +161,8 @@ PYBIND11_MODULE(_bindings, m) {
         py::arg("x"),
         py::arg("y"),
         py::arg("seqx"),
-        py::arg("seqy"));
+        py::arg("seqy"),
+        py::arg("alignment") = py::none());
   m.def("print_version",
         &print_version,
         "Print tmtools version string to stdout");
