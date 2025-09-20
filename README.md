@@ -56,6 +56,21 @@ array([[ 0.40393231,  0.04161396, -0.91384187],
 0.39002811082975875
 ```
 
+You can also provide a user-defined alignment instead of letting TM-align compute
+the optimal alignment automatically. This is useful when you have domain knowledge
+about the correct alignment or want to test specific alignment hypotheses:
+```python
+>>> # Define a custom alignment with gaps marked as '-'
+>>> alignment = ["A-YLP", "AR-N-"]
+>>> res = tm_align(coords1, coords2, seq1, seq2, alignment=alignment)
+>>> res.tm_norm_chain1
+0.3105833326322145
+>>> res.tm_norm_chain2
+0.414111110176286
+```
+Note that the ungapped sequences in the alignment must exactly match the input
+sequences `seq1` and `seq2`.
+
 If you already have some PDB files, you can use the functions from `tmalign.io`
 to retrieve the coordinate and sequence data. These functions rely on
 `BioPython`, which is not installed by default to keep dependencies
