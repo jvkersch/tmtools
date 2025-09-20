@@ -13,7 +13,7 @@ running
 ```console
     pip install tmtools
 ```
-Pre-built wheels are available for Linux, macOS, and Windows, for Python 3.6
+Pre-built wheels are available for Linux, macOS, and Windows, for Python 3.9
 and up.
 
 
