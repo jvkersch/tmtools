@@ -1,3 +1,10 @@
+0.3.0
+-----
+
+- [GH #56](https://github.com/jvkersch/tmtools/pull/56) Update Python version support to 3.10-3.14
+- [GH #52](https://github.com/jvkersch/tmtools/pull/52), [GH #53](https://github.com/jvkersch/tmtools/pull/53) Add optional user-defined alignment to `tm_align` function
+- [GH #49](https://github.com/jvkersch/tmtools/pull/49) Expose `print_version` function
+
 0.2.0
 -----
 
