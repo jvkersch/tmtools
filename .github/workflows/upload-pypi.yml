@@ -10,9 +10,10 @@ jobs:
       name: pypi
       url: https://pypi.org/p/tmtools 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: artifact
+          pattern: '*'
+          merge-multiple: true
           path: wheelhouse/
       - uses: pypa/gh-action-pypi-publish@v1.5.0
         with:

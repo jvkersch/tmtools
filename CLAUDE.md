@@ -87,9 +87,9 @@ ruff check .
 
 **3. Commit and tag:**
 - Commit the version number changes
-- Create a git tag with format `vX.Y.Z` (e.g., `v0.3.0`)
+- Create an annotated git tag with format `vX.Y.Z` (e.g., `v0.3.0`)
 - The tag should point to the commit that changes the version numbers
-- Example: `git tag v0.3.0 && git push origin v0.3.0`
+- Example: `git tag -a v0.3.0 -m "Release v0.3.0" && git push origin v0.3.0`
 
 **4. Create GitHub release:**
 - Publish a new GitHub release using the tag created above
