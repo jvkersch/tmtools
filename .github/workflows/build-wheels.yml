@@ -25,6 +25,7 @@ jobs:
         CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
         CIBW_ARCHS_MACOS: "x86_64 arm64"
         CIBW_SKIP: "pp3*"
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
+        name: wheels-${{ matrix.os }}
         path: ./wheelhouse/*.whl
