@@ -7,13 +7,14 @@ from Bio.PDB.PDBParser import PDBParser
 from Bio.PDB.MMCIFParser import MMCIFParser
 
 try:
-    from Bio.PDB.Polypeptide import protein_letters_3to1
+    from Bio.Data.IUPACData import protein_letters_3to1_extended as protein_letters_3to1
 except ImportError:
     # pre 1.80
     from Bio.PDB import protein_letters_3to1
 
 import numpy as np
 
+protein_letters_3to1['UNK'] = 'X'
 
 def get_structure(fname, format="pdb"):
     """
