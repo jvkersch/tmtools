@@ -5,3 +5,6 @@ dist
 *.dll
 *.egg-info
 **/__pycache__
+
+*.~undo-tree~
+.agent-shell
